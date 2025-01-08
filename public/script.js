@@ -320,7 +320,8 @@ window.spinWheel = spinWheel;
 
 function shareToFacebook() {
     const resultText = document.getElementById('result').innerText; // 獲取結果文字
-    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=https://yourwebsite.com&quote=${encodeURIComponent(resultText)}`;
+    const shareUrl = "https://ethan-0303.github.io/spin-wheel-project/public/spin-wheel.html"; // GitHub Pages 網址
+    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(resultText)}`;
     window.open(facebookShareUrl, '_blank');
 }
 
