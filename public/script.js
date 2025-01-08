@@ -317,6 +317,19 @@ export function spinWheel(spinParams = null) {
 }
 window.spinWheel = spinWheel;
 
+function shareScreenshotToFacebook() {
+    const shareElement = document.querySelector('.wheel-container'); // 要截圖的元素
+    html2canvas(shareElement).then(canvas => {
+        const imageDataUrl = canvas.toDataURL('image/png'); // 生成截圖的 base64 圖片
+        const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(imageDataUrl)}`;
+        window.open(facebookShareUrl, '_blank'); // 打開 Facebook 分享窗口
+    }).catch(err => {
+        console.error('Failed to capture screenshot:', err);
+    });
+}
+
+window.shareScreenshotToFacebook = shareScreenshotToFacebook; // 綁定函數
+
 
 function shareToFacebook() {
     const resultText = document.getElementById('result').innerText; // 獲取結果文字
