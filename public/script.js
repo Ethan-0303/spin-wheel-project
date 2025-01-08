@@ -329,14 +329,3 @@ function shareScreenshotToFacebook() {
 }
 
 window.shareScreenshotToFacebook = shareScreenshotToFacebook; // 綁定函數
-
-
-function shareToFacebook() {
-    const resultText = document.getElementById('result').innerText; // 獲取結果文字
-    const shareUrl = "https://ethan-0303.github.io/spin-wheel-project/public/spin-wheel.html"; // GitHub Pages 網址
-    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(resultText)}`;
-    window.open(facebookShareUrl, '_blank');
-}
-
-// 將函數綁定到全局
-window.shareToFacebook = shareToFacebook;
