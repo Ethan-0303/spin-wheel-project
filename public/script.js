@@ -320,12 +320,35 @@ window.spinWheel = spinWheel;
 function shareScreenshotToFacebook() {
     const shareElement = document.querySelector('.wheel-container'); // 要截圖的元素
     html2canvas(shareElement).then(canvas => {
-        const imageDataUrl = canvas.toDataURL('image/png'); // 生成截圖的 base64 圖片
-        const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(imageDataUrl)}`;
-        window.open(facebookShareUrl, '_blank'); // 打開 Facebook 分享窗口
+        const imageDataUrl = canvas.toDataURL('image/png'); // 生成截圖的 Base64 圖片
+
+        // 使用 Imgur API 上傳圖片並獲取公開 URL
+        const formData = new FormData();
+        formData.append('image', imageDataUrl.split(',')[1]); // 去除 Base64 前綴 "data:image/png;base64,"
+
+        fetch('https://api.imgur.com/3/image', {
+            method: 'POST',
+            headers: {
+                Authorization: 'Client-ID ET33', // 使用你的 Imgur Client ID
+            },
+            body: formData,
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const imgUrl = data.data.link; // 獲取圖片的公開 URL
+                    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(imgUrl)}`;
+                    window.open(facebookShareUrl, '_blank'); // 打開 Facebook 分享窗口
+                } else {
+                    console.error('Imgur upload failed:', data);
+                }
+            })
+            .catch(err => {
+                console.error('Failed to upload image:', err);
+            });
     }).catch(err => {
         console.error('Failed to capture screenshot:', err);
     });
 }
 
-window.shareScreenshotToFacebook = shareScreenshotToFacebook; // 綁定函數
+window.shareScreenshotToFacebook = shareScreenshotToFacebook;
